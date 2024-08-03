@@ -18,11 +18,11 @@ from prophet.plot import plot_plotly, plot_components
 import joblib
 
 # Load the pre-trained model
-model_path = "/content/drive/MyDrive/Time Series/model.joblib"
+model_path = "model.joblib"
 model = joblib.load(model_path)
 
 # Load the dataset
-df = pd.read_csv('/content/drive/MyDrive/Time Series/filtered_data.csv')
+df = pd.read_csv('filtered_data.csv')
 df['ds'] = pd.to_datetime(df['ds'])
 df = df.set_index('ds')
 
