@@ -106,6 +106,7 @@ if forecast_time:
     # Assume East Africa Time (EAT) for input time
     local_tz = pytz.timezone("Africa/Nairobi")
     forecast_datetime = datetime.combine(forecast_date, forecast_time)
+    # Localize to EAT
     forecast_datetime = local_tz.localize(forecast_datetime)
 else:
     forecast_datetime = datetime.combine(forecast_date, datetime.min.time())
@@ -137,6 +138,7 @@ if ok:
     output_values = forecast['yhat']
     
     st.markdown(f'<div class="output-message">The estimated number of cars is {output_values.values[0]:.2f}</div>', unsafe_allow_html=True)
+
 
 # Command to run the app
     #streamlit run src/predict_page.py
