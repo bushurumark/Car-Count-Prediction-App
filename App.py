@@ -56,10 +56,12 @@ st.markdown(
         color: #FFFFFF; /* White text color for buttons */
     }
     .output-message {
+        background-color: #FFFFFF; /* White background for output message */
         color: #FF0000; /* Red text color for output message */
         padding: 1rem;
         border-radius: 5px;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        font-weight: bold;
     }
     </style>
     """,
@@ -129,6 +131,6 @@ if ok:
 
     forecast = model.predict(future)
     output_values = forecast['yhat']
-    st.success(f'The estimated number of cars is {output_values.values[0]:.2f}')
+    st.markdown(f'<div class="output-message">The estimated number of cars is {output_values.values[0]:.2f}</div>', unsafe_allow_html=True)
 # Command to run the app
     #streamlit run src/predict_page.py
