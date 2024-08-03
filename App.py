@@ -56,8 +56,7 @@ st.markdown(
         color: #FFFFFF; /* White text color for buttons */
     }
     .output-message {
-        background-color: #FF0000; /* Red background for output message */
-        color: #FFFFFF; /* White text color for output message */
+        color: #FF0000; /* Red text color for output message */
         padding: 1rem;
         border-radius: 5px;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
