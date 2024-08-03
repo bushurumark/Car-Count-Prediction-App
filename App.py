@@ -16,7 +16,6 @@ from datetime import datetime, timedelta
 import pandas as pd
 from prophet.plot import plot_plotly, plot_components
 import joblib
-import pytz
 
 # Load the pre-trained model
 model_path = "model.joblib"
@@ -103,11 +102,7 @@ if forecast_option == 'Hourly':
 
 # Combine date and time if needed
 if forecast_time:
-    # Assume East Africa Time (EAT) for input time
-    local_tz = pytz.timezone("Africa/Nairobi")
     forecast_datetime = datetime.combine(forecast_date, forecast_time)
-    # Localize to EAT
-    forecast_datetime = local_tz.localize(forecast_datetime)
 else:
     forecast_datetime = datetime.combine(forecast_date, datetime.min.time())
 
