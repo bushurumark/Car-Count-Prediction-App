@@ -113,6 +113,10 @@ else:
 # Convert forecast_datetime to UTC for prediction
 forecast_datetime_utc = forecast_datetime.astimezone(pytz.utc)
 
+# Display debug information
+st.write(f"Local time in Nairobi: {forecast_datetime}")
+st.write(f"UTC time for prediction: {forecast_datetime_utc}")
+
 # Number of cars input
 num_cars = st.number_input(label='Please enter the number of cars for the given date and time')
 
@@ -142,6 +146,7 @@ if ok:
     # Convert the forecasted result back to Nairobi time
     forecasted_value = output_values.values[0]
     st.markdown(f'<div class="output-message">The estimated number of cars is {forecasted_value:.2f}</div>', unsafe_allow_html=True)
+
 
 
 
