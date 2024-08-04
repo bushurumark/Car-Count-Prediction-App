@@ -106,15 +106,15 @@ if forecast_option == 'Hourly':
 
 # Combine date and time if needed
 if forecast_time:
-    forecast_datetime = timezone.localize(datetime.combine(forecast_date, forecast_time))
+    # Adjust forecast time by adding 3 hours to align with local time
+    forecast_time_adjusted = (datetime.combine(datetime.today(), forecast_time) + timedelta(hours=3)).time()
+    forecast_datetime = timezone.localize(datetime.combine(forecast_date, forecast_time_adjusted))
 else:
     forecast_datetime = timezone.localize(datetime.combine(forecast_date, datetime.min.time()))
 
-# Convert forecast_datetime to UTC for prediction
-forecast_datetime_utc = forecast_datetime.astimezone(pytz.utc)
-
-# Display debug information
+# Debugging: Display the local datetime and UTC conversion
 st.write(f"Local time in Nairobi: {forecast_datetime}")
+forecast_datetime_utc = forecast_datetime.astimezone(pytz.utc)
 st.write(f"UTC time for prediction: {forecast_datetime_utc}")
 
 # Number of cars input
@@ -143,7 +143,7 @@ if ok:
     forecast = model.predict(future)
     output_values = forecast['yhat']
 
-    # Convert the forecasted result back to Nairobi time
+    # Display forecasted value
     forecasted_value = output_values.values[0]
     st.markdown(f'<div class="output-message">The estimated number of cars is {forecasted_value:.2f}</div>', unsafe_allow_html=True)
 
