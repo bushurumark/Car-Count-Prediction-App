@@ -14,6 +14,7 @@ Original file is located at
 import streamlit as st
 from datetime import datetime, timedelta
 import pandas as pd
+import pytz
 from prophet.plot import plot_plotly, plot_components
 import joblib
 
@@ -25,6 +26,9 @@ model = joblib.load(model_path)
 df = pd.read_csv('filtered_data.csv')
 df['ds'] = pd.to_datetime(df['ds'])
 df = df.set_index('ds')
+
+# Set the timezone for Nairobi, Kenya
+timezone = pytz.timezone('Africa/Nairobi')
 
 # Apply CSS styles for navy blue and bright colors
 st.markdown(
@@ -102,9 +106,9 @@ if forecast_option == 'Hourly':
 
 # Combine date and time if needed
 if forecast_time:
-    forecast_datetime = datetime.combine(forecast_date, forecast_time)
+    forecast_datetime = timezone.localize(datetime.combine(forecast_date, forecast_time))
 else:
-    forecast_datetime = datetime.combine(forecast_date, datetime.min.time())
+    forecast_datetime = timezone.localize(datetime.combine(forecast_date, datetime.min.time()))
 
 # Number of cars input
 num_cars = st.number_input(label='Please enter the number of cars for the given date and time')
@@ -133,6 +137,7 @@ if ok:
     output_values = forecast['yhat']
     
     st.markdown(f'<div class="output-message">The estimated number of cars is {output_values.values[0]:.2f}</div>', unsafe_allow_html=True)
+
 
 
 # Command to run the app
