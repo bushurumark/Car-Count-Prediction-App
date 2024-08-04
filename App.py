@@ -110,6 +110,9 @@ if forecast_time:
 else:
     forecast_datetime = timezone.localize(datetime.combine(forecast_date, datetime.min.time()))
 
+# Convert forecast_datetime to UTC for prediction
+forecast_datetime_utc = forecast_datetime.astimezone(pytz.utc)
+
 # Number of cars input
 num_cars = st.number_input(label='Please enter the number of cars for the given date and time')
 
@@ -117,12 +120,12 @@ num_cars = st.number_input(label='Please enter the number of cars for the given 
 ok = st.button('Forecast Number of Cars')
 if ok:
     # Input DataFrame
-    input_data = {'ds': [forecast_datetime], 'y': [num_cars]}
+    input_data = {'ds': [forecast_datetime_utc], 'y': [num_cars]}
     inputs = pd.DataFrame(input_data)
     inputs['ds'] = pd.to_datetime(inputs['ds'])  # Ensure datetime format
 
     # Making Prediction
-    future = pd.DataFrame({'ds': [forecast_datetime]})
+    future = pd.DataFrame({'ds': [forecast_datetime_utc]})
 
     if forecast_option == 'Hourly':
         future['ds'] = future['ds'] + timedelta(hours=1)
@@ -135,8 +138,11 @@ if ok:
 
     forecast = model.predict(future)
     output_values = forecast['yhat']
-    
-    st.markdown(f'<div class="output-message">The estimated number of cars is {output_values.values[0]:.2f}</div>', unsafe_allow_html=True)
+
+    # Convert the forecasted result back to Nairobi time
+    forecasted_value = output_values.values[0]
+    st.markdown(f'<div class="output-message">The estimated number of cars is {forecasted_value:.2f}</div>', unsafe_allow_html=True)
+
 
 
 
