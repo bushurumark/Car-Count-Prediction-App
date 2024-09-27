@@ -19,6 +19,7 @@ import gdown
 import joblib
 
 # Load the pre-trained model
+@st.cache_data  # Caching the model so it doesn't download every time the app reloads
 url = "https://drive.google.com/uc?id=1DTqIYSFcwPUrU6Z0zRHukPGrwSvLIrg9"
 model_path = "model.joblib"
 # Download the file
